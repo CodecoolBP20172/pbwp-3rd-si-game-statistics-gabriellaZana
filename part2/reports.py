@@ -1,4 +1,5 @@
 import math
+import operator
 
 
 def get_most_played(file_name):
@@ -70,13 +71,32 @@ def get_game(file_name, title):
             return sublist
 
 
-'''def count_grouped_by_genre(file_name):
+def count_grouped_by_genre(file_name):
     games_datas_list = []
+    genres = []
+    genre_count_dict = dict()
     with open(file_name) as input_file:
         for line in input_file:
             games_datas_list.append(line.strip().split('\t'))
     for sublist in games_datas_list:
+        genres.append(sublist[3])
+    for item in genres:
+        if item not in genre_count_dict.keys():
+            genre_count_dict[item] = 1
+        elif item in genre_count_dict.keys():
+            genre_count_dict[item] += 1
+    return genre_count_dict
 
-    print(genre_count_dict)
 
-count_grouped_by_genre("game_stat.txt")'''
+def get_date_ordered(file_name):
+    games_datas_list = []
+    title_date_dict = dict()
+    with open(file_name) as input_file:
+        for line in input_file:
+            games_datas_list.append(line.strip().split('\t'))
+    for sublist in games_datas_list:
+        title_date_dict[sublist[0]] = sublist[2]
+    ordered_dict = sorted(title_date_dict.items(), key=operator.itemgetter(0))
+    ordered_final = sorted(ordered_dict, key=operator.itemgetter(1), reverse=True)
+    result_list = [item[0] for item in ordered_final]
+    return result_list
